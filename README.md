@@ -1,15 +1,9 @@
 # CoocoxToMakeFile
-Converts a Coocox project to a Makefile
 
-**This project **
+I been using Coox recently, as result of the closure of the developer of this app. I was left with a couple of Arm projects with out the posibilty of being used outside this tool.
 
-Allows the conversion of a Coocox IDE project to a make file. When I decided to created this project the requeriments were set to the minimum:
+This tool tries to gatter the most information from the IDE and based on this creates a make file (Please note I imported a project without a glich, the second project found problems because the IDE put the files in a different location)
 
-1) java
-2) gcc arm
-3) coocox
+Please use this tool as first part (modifying the make file is easy)
 
-and the IDE of your choice
-
-
-Please see the Documentation
+Thanks
