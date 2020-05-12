@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="postbuild" name="test">
+    <property name="project.name" value="lpc_1768_controller"/>
+    <property name="project.path" value="C:\projects\arm_projects\updated_lpc1768"/>
+    <property name="output.name" value="lpc_1768_controller"/>
+    <property name="output.path" value="C:\projects\arm_projects\updated_lpc1768\lpc_1768_controller"/>
+    <property name="project.debug" value="${output.path}/Debug"/>
+    <property name="project.obj" value="${output.path}/Debug/obj"/>
+    <property name="project.bin" value="${output.path}/Debug/bin"/>
+    <property name="target.name" value="lpc_1768_controller"/>
+    <property name="gcc.home" value="/home/clopez/gcc-arm-none-eabi-5_4-2016q2/bin"/>
+    <property name="chip.name" value="LPC1768"/>
+
+    <!-- associate current path to the link file path-->
+    <dirname file="$${basedir}" property="linkdir"/>
+
+    <target depends="compile" name="postbuild">
+        <exec executable="${gcc.home}\arm-none-eabi-objcopy.exe">
+            <arg value="-O"/>
+            <arg value="binary"/>
+            <arg value="${project.bin}\${output.name}.elf"/>
+            <arg value="${project.bin}\${output.name}.bin"/>
+        </exec>
+        <exec executable="${gcc.home}\arm-none-eabi-objcopy.exe">
+            <arg value="-O"/>
+            <arg value="ihex"/>
+            <arg value="${project.bin}\${output.name}.elf"/>
+            <arg value="${project.bin}\${output.name}.hex"/>
+        </exec>
+        <exec dir="${project.bin}" executable="${gcc.home}\arm-none-eabi-size.exe">
+            <arg value="${output.name}.elf"/>
+        </exec>
+    </target>
+
+    <taskdef resource="cpptasks.tasks"/>
+    <target name="compile">
+        <mkdir dir="${project.bin}"/>
+        <mkdir dir="${project.obj}"/>
+        <cc debug="true" incremental="0" objdir="${project.obj}" outfile="${project.bin}/${output.name}.elf" outtype="executable" subsystem="console">
+            <!-- compile all the c source file in the project -->
+            <fileset casesensitive="false" file="./uart.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_nvic.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_pinsel.c"/>
+            <fileset casesensitive="false" file="./cmsis_boot/startup/startup_LPC17xx.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_gpio.c"/>
+            <fileset casesensitive="false" file="./example/EXTINT_exti0.c"/>
+            <fileset casesensitive="false" file="./cmsis_boot/system_LPC17xx.c"/>
+            <fileset casesensitive="false" file="./CoX_Interface/xdebug.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_timer.c"/>
+            <fileset casesensitive="false" file="./example/EXTINT_Sleep.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_i2c.c"/>
+            <fileset casesensitive="false" file="./example/ADC_HardWareTrigger.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_uart.c"/>
+            <fileset casesensitive="false" file="./main.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_libcfg_default.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_gpdma.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_adc.c"/>
+            <fileset casesensitive="false" file="./CoX_Drivers/LM75B/LM75B.c"/>
+            <fileset casesensitive="false" file="./dma.c"/>
+            <fileset casesensitive="false" file="./leds.c"/>
+            <fileset casesensitive="false" file="./I2C_Mine.c"/>
+            <fileset casesensitive="false" file="./i2c/mcp23017.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_emac.c"/>
+            <fileset casesensitive="false" file="./strtok1.c"/>
+            <fileset casesensitive="false" file="./string1.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_clkpwr.c"/>
+            <fileset casesensitive="false" file="./tim.c"/>
+            <fileset casesensitive="false" file="./lpc17xx_lib/source/lpc17xx_exti.c"/>
+            <project outfile="${output.path}/${output.name}.elf" overwrite="true" type="xcode"/>
+            <defineset>
+                <define name="LPC1768"/>
+            </defineset>
+            <includepath path="./COX/src/COX/COX_Peripheral"/>
+            <includepath path="C:/projects/arm_projects"/>
+            <includepath path="./CoX_Drivers/LM75B"/>
+            <includepath path="./cmsis"/>
+            <includepath path="./COX/src"/>
+            <includepath path="./lpc17xx_lib"/>
+            <includepath path="./lpc17xx_lib/include"/>
+            <includepath path="./example"/>
+            <includepath path="./COX/src/COX"/>
+            <includepath path="C:/projects"/>
+            <includepath path="./i2c"/>
+            <includepath path="./cmsis_boot"/>
+            <includepath path="."/>
+            <includepath path="./CoX_Interface"/>
+            <includepath path="./CoX_Drivers"/>
+            <compilerarg value="-mcpu=cortex-m3"/>
+            <compilerarg value="-mthumb"/>
+            <compilerarg value="-Wall"/>
+            <compilerarg value="-ffunction-sections"/>
+            <compilerarg value="-g"/>
+            <compilerarg value="-O0"/>
+            <linkerarg value="-mcpu=cortex-m3"/>
+            <linkerarg value="-mthumb"/>
+            <linkerarg value="-g"/>
+            <linkerarg value="-nostartfiles"/>
+            <linkerarg value="-Map=lpc_1768_controller.map"/>
+            <linkerarg value="-O0"/>
+            <linkerarg value="--gc-sections"/>
+            <linkerarg value="-L${linkdir}"/>
+            <linkerarg value="-T${linkdir}/arm-gcc-link.ld"/>
+        </cc>
+    </target>
+
+    <target name="clean">
+        <delete dir="${project.bin}"/>
+        <delete dir="${project.obj}"/>
+        <delete dir="${project.debug}"/>
+        <delete dir="${output.path}/${output.name}.elf.xcodeproj"/>
+    </target>
+
+    <target depends="clean" name="rebuild">
+        <antcall target="postbuild"/>
+    </target>
+
+</project>
+

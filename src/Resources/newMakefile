@@ -1,0 +1,315 @@
+run:
+BASE_DEBUG    =C:\projects\arm_projects\updated_lpc1768
+BASE          =C:\projects\arm_projects\updated_lpc1768
+CC            =/home/clopez/gcc-arm-none-eabi-5_4-2016q2/binarm-none-eabi-gcc
+CXX           =/home/clopez/gcc-arm-none-eabi-5_4-2016q2/binarm-none-eabi-g++
+CXXFLAGS      = $(DEFINES) -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -O0
+INCPATH       =-I./COX/src/COX/COX_Peripheral -IC:/projects/arm_projects -I./CoX_Drivers/LM75B -I./cmsis -I./COX/src -I./lpc17xx_lib -I./lpc17xx_lib/include -I./example -I./COX/src/COX -IC:/projects -I./i2c -I./cmsis_boot -I. -I./CoX_Interface -I./CoX_Drivers
+LFLAGS        = -mcpu=cortex-m3 -mthumb -g -nostartfiles -Map=lpc_1768_controller.map -O0 --gc-sections -L${linkdir} -T${linkdir}/arm-gcc-link.ld
+OBJECTS_DIR   = ./
+
+
+SOURCES=./uart.c\
+	./lpc17xx_lib/source/lpc17xx_nvic.c\
+	./lpc17xx_lib/source/lpc17xx_pinsel.c\
+	./cmsis_boot/startup/startup_LPC17xx.c\
+	./lpc17xx_lib/source/lpc17xx_gpio.c\
+	./example/EXTINT_exti0.c\
+	./cmsis_boot/system_LPC17xx.c\
+	./CoX_Interface/xdebug.c\
+	./lpc17xx_lib/source/lpc17xx_timer.c\
+	./example/EXTINT_Sleep.c\
+	./lpc17xx_lib/source/lpc17xx_i2c.c\
+	./example/ADC_HardWareTrigger.c\
+	./lpc17xx_lib/source/lpc17xx_uart.c\
+	./main.c\
+	./lpc17xx_lib/source/lpc17xx_libcfg_default.c\
+	./lpc17xx_lib/source/lpc17xx_gpdma.c\
+	./lpc17xx_lib/source/lpc17xx_adc.c\
+	./CoX_Drivers/LM75B/LM75B.c\
+	./dma.c\
+	./leds.c\
+	./I2C_Mine.c\
+	./i2c/mcp23017.c\
+	./lpc17xx_lib/source/lpc17xx_emac.c\
+	./strtok1.c\
+	./string1.c\
+	./lpc17xx_lib/source/lpc17xx_clkpwr.c\
+	./tim.c\
+	./lpc17xx_lib/source/lpc17xx_exti.c
+
+
+OBJECTS=uart.o\
+	lpc17xx_nvic.o\
+	lpc17xx_pinsel.o\
+	startup_LPC17xx.o\
+	lpc17xx_gpio.o\
+	EXTINT_exti0.o\
+	system_LPC17xx.o\
+	xdebug.o\
+	lpc17xx_timer.o\
+	EXTINT_Sleep.o\
+	lpc17xx_i2c.o\
+	ADC_HardWareTrigger.o\
+	lpc17xx_uart.o\
+	main.o\
+	lpc17xx_libcfg_default.o\
+	lpc17xx_gpdma.o\
+	lpc17xx_adc.o\
+	LM75B.o\
+	dma.o\
+	leds.o\
+	I2C_Mine.o\
+	mcp23017.o\
+	lpc17xx_emac.o\
+	strtok1.o\
+	string1.o\
+	lpc17xx_clkpwr.o\
+	tim.o\
+	lpc17xx_exti.o
+
+
+TARGET        = lpc_1768_controller
+TARGET        = lpc_1768_controller
+.SUFFIXES: .o .c .cpp .cc .cxx .C
+
+
+.cpp.o:
+
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.cc.o:
+
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.cxx.o:
+
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.C.o:
+
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o "$@" "$<"
+
+.c.o:
+
+	$(CC) -c $(CFLAGS) $(INCPATH) -o "$@" "$<"
+
+####### Build rules
+
+
+all: Makefile $(TARGET)
+
+
+$(TARGET): $(OBJECTS)
+
+		$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
+
+		{ test -n "$(DESTDIR)" && 
+DESTDIR="$(DESTDIR)" || DESTDIR=.; } && test $$(gdb --version | 
+sed -e 's,[^0-9][^0-9]*\([0-9]\)\.\([0-9]\).*,\1\2,;q')
+-gt 72 && gdb --nx --batch --quiet -ex 'set confirm off' -ex "save gdb-index $$DESTDIR" -ex quit '$(TARGET)' && test -f $(TARGET).gdb-index && objcopy --add-section '.gdb_index=$(TARGET).gdb-index' --set-section-flags '.gdb_index=readonly' '$(TARGET)' '$(TARGET)' && rm -f $(TARGET).gdb-index || true
+$(TARGET): $(OBJECTS)
+
+
+$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
+
+
+OBJECTS=uart.o\
+	lpc17xx_nvic.o\
+	lpc17xx_pinsel.o\
+	startup_LPC17xx.o\
+	lpc17xx_gpio.o\
+	EXTINT_exti0.o\
+	system_LPC17xx.o\
+	xdebug.o\
+	lpc17xx_timer.o\
+	EXTINT_Sleep.o\
+	lpc17xx_i2c.o\
+	ADC_HardWareTrigger.o\
+	lpc17xx_uart.o\
+	main.o\
+	lpc17xx_libcfg_default.o\
+	lpc17xx_gpdma.o\
+	lpc17xx_adc.o\
+	LM75B.o\
+	dma.o\
+	leds.o\
+	I2C_Mine.o\
+	mcp23017.o\
+	lpc17xx_emac.o\
+	strtok1.o\
+	string1.o\
+	lpc17xx_clkpwr.o\
+	tim.o\
+	lpc17xx_exti.o
+
+
+uart.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o uart.o ./uart.c
+
+
+
+lpc17xx_nvic.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_nvic.o ./lpc17xx_lib/source/lpc17xx_nvic.c
+
+
+
+lpc17xx_pinsel.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_pinsel.o ./lpc17xx_lib/source/lpc17xx_pinsel.c
+
+
+
+startup_LPC17xx.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o startup_LPC17xx.o ./cmsis_boot/startup/startup_LPC17xx.c
+
+
+
+lpc17xx_gpio.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_gpio.o ./lpc17xx_lib/source/lpc17xx_gpio.c
+
+
+
+EXTINT_exti0.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o EXTINT_exti0.o ./example/EXTINT_exti0.c
+
+
+
+system_LPC17xx.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o system_LPC17xx.o ./cmsis_boot/system_LPC17xx.c
+
+
+
+xdebug.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o xdebug.o ./CoX_Interface/xdebug.c
+
+
+
+lpc17xx_timer.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_timer.o ./lpc17xx_lib/source/lpc17xx_timer.c
+
+
+
+EXTINT_Sleep.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o EXTINT_Sleep.o ./example/EXTINT_Sleep.c
+
+
+
+lpc17xx_i2c.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_i2c.o ./lpc17xx_lib/source/lpc17xx_i2c.c
+
+
+
+ADC_HardWareTrigger.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o ADC_HardWareTrigger.o ./example/ADC_HardWareTrigger.c
+
+
+
+lpc17xx_uart.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_uart.o ./lpc17xx_lib/source/lpc17xx_uart.c
+
+
+
+main.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o main.o ./main.c
+
+
+
+lpc17xx_libcfg_default.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_libcfg_default.o ./lpc17xx_lib/source/lpc17xx_libcfg_default.c
+
+
+
+lpc17xx_gpdma.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_gpdma.o ./lpc17xx_lib/source/lpc17xx_gpdma.c
+
+
+
+lpc17xx_adc.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_adc.o ./lpc17xx_lib/source/lpc17xx_adc.c
+
+
+
+LM75B.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o LM75B.o ./CoX_Drivers/LM75B/LM75B.c
+
+
+
+dma.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o dma.o ./dma.c
+
+
+
+leds.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o leds.o ./leds.c
+
+
+
+I2C_Mine.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o I2C_Mine.o ./I2C_Mine.c
+
+
+
+mcp23017.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o mcp23017.o ./i2c/mcp23017.c
+
+
+
+lpc17xx_emac.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_emac.o ./lpc17xx_lib/source/lpc17xx_emac.c
+
+
+
+strtok1.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o strtok1.o ./strtok1.c
+
+
+
+string1.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o string1.o ./string1.c
+
+
+
+lpc17xx_clkpwr.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_clkpwr.o ./lpc17xx_lib/source/lpc17xx_clkpwr.c
+
+
+
+tim.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o tim.o ./tim.c
+
+
+
+lpc17xx_exti.o:
+
+		$(CC) -c $(CXXFLAGS) $(INCPATH) -o lpc17xx_exti.o ./lpc17xx_lib/source/lpc17xx_exti.c
+
+
+
+BUILD SUCCESSFUL (total time: 0 seconds)
